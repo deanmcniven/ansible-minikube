@@ -1,0 +1,20 @@
+---
+- name: Get minikube release info
+  become: false
+  uri:
+    url: https://api.github.com/repos/kubernetes/minikube/releases/latest
+    headers:
+      Accept: 'application/vnd.github.v3+json'
+    return_content: yes
+  register: minikube_release_info
+  changed_when: false
+
+- name: Get Available Minikube Release Info
+  become: false
+  vars:
+    linux_binary_query: "assets[?name=='minikube-linux-amd64'].browser_download_url"
+  set_fact:
+    minikube_version: "{{ minikube_release_info.json.tag_name | replace('v', '') }}"
+    minikube_download_url: "{{ minikube_release_info.json | json_query(linux_binary_query) | first }}"
+  changed_when: false
+

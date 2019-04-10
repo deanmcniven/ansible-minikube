@@ -1,0 +1,27 @@
+---
+- name: Create Minikube Directory
+  become: true
+  file:
+    path: /opt/kubernetes/minikube-{{ minikube_version }}
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Download Minikube
+  become: true
+  get_url:
+    url: "{{ minikube_download_url }}"
+    dest: /opt/kubernetes/minikube-{{ minikube_version }}/minikube-linux-amd64-{{ minikube_version }}
+    mode: 0755
+
+- name: Creating symlink to minikube
+  become: true
+  file:
+    src: /opt/kubernetes/minikube-{{ minikube_version }}/minikube-linux-amd64-{{ minikube_version }}
+    dest: /usr/local/bin/minikube
+    owner: root
+    group: root
+    mode: 0755
+    state: link
+

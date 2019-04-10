@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Dean McNiven
+  description: ansible-minikube
+  license: MIT
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+dependencies: []
+
